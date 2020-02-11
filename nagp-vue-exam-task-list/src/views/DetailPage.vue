@@ -10,6 +10,12 @@
         Deadline: {{task.deadline}}
         <br/>
     </div>
+    <div>
+      <b-form-textarea v-model="notes" placeholder="Enter Notes"></b-form-textarea>
+    </div>
+    <div>
+      <b-button @click="addNotes(task.id)" variant="success">Add Task</b-button>
+    </div>
   </div>
 </template>
 
@@ -28,8 +34,18 @@ export default {
   },
   data() {
     return {
-      taskId: false
+      taskId: false,
+      notes: ""
     };
+  },
+  methods:{
+    addNotes(taskId){
+      var data = {
+        id: taskId,
+        notes :this.notes
+      }
+      store.commit("addNotes", data)
+    }
   }
 };
 </script>

@@ -15,17 +15,36 @@ export default new Vuex.Store({
       state.todoitems.push(payload)
     },
     sortStatus(state){
-      console.log(state.todoitems)
-      var doneTasks = state.todoitems.filter(function(item) {
-        return item.done;
+      state.todoitems.sort(function(a,b){
+          if((a.done && b.done) || (!a.done && !b.done)){
+            return 0;
+          }
+          else if(a.done && !b.done){
+            return 1;
+          }
+          else if(!a.done && b.done){
+            return -1;
+          }
       })
-      var pendingTasks = state.todoitems.filter(function(item) {
-        return !item.done;
-      })
-      state.todoitems = [];
-      state.todoitems.concat(pendingTasks);
-      state.todoitems.concat(doneTasks);
-    }
+    },
+    sortDeadline(state){
+      state.todoitems.sort(function(a,b){
+        if(a.deadline == b.deadline){
+          return 0;
+        }
+        else if(a.deadline > b.deadline){
+          return 1;
+        }
+        else if(a.deadline < b.deadline){
+          return -1;
+        }
+    })
+  },
+  addNotes(state, data){
+    var taskId = data.id;
+    var notes = data.notes;
+    state.todoitems[taskId].notes = notes;
+  }
   },
   actions: {
 
